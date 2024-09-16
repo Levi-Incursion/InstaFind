@@ -1,10 +1,11 @@
 from django.shortcuts import render,redirect
 from django.http import JsonResponse
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Advocate
-from .serializers import AdvocateSerializer
+from rest_framework.permissions import IsAuthenticated
+from .models import Advocate,Company
+from .serializers import AdvocateSerializer,CompanySerializer
 from django.db.models import Q
 
 @api_view(['GET'])
@@ -14,6 +15,7 @@ def endpoints(request):
     return Response(data)
 
 @api_view(['GET','POST'])
+@permission_classes([IsAuthenticated])
 def advocates_list(request):
     # data = ['Kirtan', 'Mayank', 'Manav']
     if request.method == 'GET':
@@ -85,6 +87,9 @@ class AdvocateDetails(APIView):
         return Response('User was deleted!')
 
 
-
-
+@api_view(['GET'])
+def companies_list(request):
+    companies = Company.objects.all()
+    serializer = CompanySerializer(companies,many=True)
+    return Response(serializer.data)
 
