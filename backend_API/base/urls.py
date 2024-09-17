@@ -10,11 +10,11 @@ urlpatterns = [
     
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
 
-    path('advocates/', views.advocates_list, name = "advocates_url"),
-    # path('advocates/<str:username>/', views.advocates_details)
-    path('advocates/<str:username>/', views.AdvocateDetails.as_view()),
+    path('handles/', views.handles_list, name = "handle_url"),
+    # path('handles/<str:username>/', views.advocates_details)
+    path('handles/<str:username>/', views.HandleDetails.as_view()),
 
-    #companies endpoint
-    path('companies/', views.companies_list)
+    #interests endpoint
+    path('categories/', views.category_list)
 
 ]

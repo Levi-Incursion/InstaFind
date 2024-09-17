@@ -1,21 +1,21 @@
 from rest_framework.serializers import ModelSerializer,SerializerMethodField
-from .models import Advocate,Company
+from .models import Handle,Category
 
-class CompanySerializer(ModelSerializer):
-    employee_count = SerializerMethodField()
+class CategorySerializer(ModelSerializer):
+    category_count = SerializerMethodField()
     class Meta:
-        model = Company
+        model = Category
         fields = '__all__'
 
-    def get_employee_count(self,obj):
-        return obj.advocate_set.count()
+    def get_category_count(self,obj):
+        return obj.handle_set.count()
 
-class AdvocateSerializer(ModelSerializer):
-    # company = CompanySerializer()
-    company_name = SerializerMethodField()
+class HandleSerializer(ModelSerializer):
+    # Category = categorySerializer()
+    category_name = SerializerMethodField()
     class Meta:
-        model = Advocate
-        fields = ['username','bio','company_name']
+        model = Handle
+        fields = ['rank','username','channel_info','category_name','posts','followers','avg_likes','profile_pic']
 
-    def get_company_name(self,obj):
-        return obj.company.name
+    def get_category_name(self,obj):
+        return obj.category.name

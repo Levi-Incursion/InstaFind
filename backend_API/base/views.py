@@ -4,19 +4,19 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .models import Advocate,Company
-from .serializers import AdvocateSerializer,CompanySerializer
+from .models import Handle,Category
+from .serializers import HandleSerializer,CategorySerializer 
 from django.db.models import Q
 
 @api_view(['GET'])
 def endpoints(request):
-    data = ['/advocates','advocates/:username']
+    data = ['/handles','handles/:username']
     # return JsonResponse(data, safe=False) #safe word - lets JsonResponse read Python Dict files
     return Response(data)
 
 @api_view(['GET','POST'])
-@permission_classes([IsAuthenticated])
-def advocates_list(request):
+# @permission_classes([IsAuthenticated])
+def handles_list(request):
     # data = ['Kirtan', 'Mayank', 'Manav']
     if request.method == 'GET':
         query = request.GET.get('query')
@@ -24,72 +24,85 @@ def advocates_list(request):
         if query == None:
             query = ''
 
-        advocates = Advocate.objects.filter(Q(username__icontains=query) |   Q(bio__icontains=query))
-        serializer = AdvocateSerializer(advocates, many=True)
+        # handles = Handle.objects.filter(Q(username__icontains=query) |   Q(category__icontains=query))
+        handles = Handle.objects.filter(Q(username__icontains=query))
+        serializer = HandleSerializer(handles, many=True)
         return Response(serializer.data)
     
     if request.method == 'POST':
-        advocate = Advocate.objects.create(
+        handle = Handle.objects.create(
+            rank = request.data['rank'],
             username = request.data['username'],
-            bio = request.data['bio']
+            channel_info = request.data['channel_info'],
+            category_id = request.data['category_id'],
+            posts = request.data['posts'],
+            followers = request.data['followers'],
+            avg_likes = request.data['avg_likes'],
+            profile_pic = request.data['profile_pic']
         )
 
-        serializer = AdvocateSerializer(advocate, many=False)
+        serializer = HandleSerializer(handle, many=False)
         
         return Response(serializer.data)
 
 # @api_view(['GET', 'PUT', 'DELETE'])
 # def advocates_details(request,username):
 #     # data = username
-#     advocate = Advocate.objects.get(username = username)
+#     handle = Handle.objects.get(username = username)
 #     if request.method == 'GET':
-#         serializer = AdvocateSerializer(advocate,many=False)
+#         serializer = HandleSerializer(handle,many=False)
 #         return Response(serializer.data)
     
 #     if request.method == 'PUT':
-#         advocate.username = request.data['username'] #edit this out with your api's data
-#         advocate.bio = request.data['bio']
+#         handle.username = request.data['username'] #edit this out with your api's data
+#         handle.profile_pic = request.data['profile_pic']
 
-#         advocate.save()
-#         serializer = AdvocateSerializer(advocate,many=False)
+#         handle.save()
+#         serializer = HandleSerializer(handle,many=False)
 #         return Response(serializer.data)
     
 #     if request.method == 'DELETE':
-#         advocate.delete()
+#         handle.delete()
 #         return Response('User was deleted!')
 
-class AdvocateDetails(APIView):
+class HandleDetails(APIView):
     def get_object(self, username):
         try:
-            return Advocate.objects.get(username=username)
-        except Advocate.DoesNotExist:
-            raise JsonResponse("Advocate Does Not Exists!")
+            return Handle.objects.get(username=username)
+        except Handle.DoesNotExist:
+            raise JsonResponse("Handle Does Not Exists!")
     
     def get(self, request, username):
-        # advocate = Advocate.objects.get(username = username)
-        advocate = self.get_object(username)
-        serializer = AdvocateSerializer(advocate,many=False)
+        # handle = Handle.objects.get(username = username)
+        handle = self.get_object(username)
+        serializer = HandleSerializer(handle,many=False)
         return Response(serializer.data)
     
     def put(self,request, username):
-        # advocate = Advocate.objects.get(username = username)
-        advocate  = self.get_object(username)
-        advocate.username = request.data['username'] #edit this out with your api's data
-        advocate.bio = request.data['bio']
+        # handle = Handle.objects.get(username = username)
+        handle = self.get_object(username)      
+        handle.rank = request.data['rank'],
+        handle.username = request.data['username'] #edit this out with your api's data
+        handle.channel_info = request.data['channel_info'],
+        handle.profile_pic = request.data['profile_pic']
+        handle.posts = request.data['posts'],
+        handle.followers = request.data['followers'],
+        handle.avg_likes = request.data['avg_likes'],
+        handle.profile_pic = request.data['profile_pic']
 
-        advocate.save()
-        serializer = AdvocateSerializer(advocate,many=False)
+        handle.save()
+        serializer = HandleSerializer(handle,many=False)
         return Response(serializer.data)
     
     def delete(self,request,username):
-        advocate = self.get_object(username)
-        advocate.delete()
+        handle = self.get_object(username)
+        handle.delete()
         return Response('User was deleted!')
 
 
 @api_view(['GET'])
-def companies_list(request):
-    companies = Company.objects.all()
-    serializer = CompanySerializer(companies,many=True)
+def category_list(request):
+    categories = Category.objects.all()
+    serializer = CategorySerializer(categories,many=True)
     return Response(serializer.data)
 
