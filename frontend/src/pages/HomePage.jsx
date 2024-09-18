@@ -33,7 +33,7 @@ const HomePage = () => {
     return (
         <div>
             <h1 className="mt-12 mb-4 text-7xl text-center tracking-tight font-extrabold">InstaFind</h1>
-            <h2 className="mt-2 text-3xl text-center mt-4 mb-16 font-semibold">Search Amongst 30 users according to your interest!</h2>
+            <h2 className="mt-2 text-3xl text-center mt-4 mb-16 font-semibold">Search Amongst many users according to your interest!</h2>
             <div className="mb-12">
                 {/* <p className="font-normal text-lg">{count} handles found</p> */}
                 <form id='search_form' onSubmit={searchData}>
