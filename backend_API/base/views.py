@@ -11,25 +11,22 @@ from django.db.models import Q
 @api_view(['GET'])
 def endpoints(request):
     data = ['/handles','handles/:username']
-    # return JsonResponse(data, safe=False) #safe word - lets JsonResponse read Python Dict files
+    # return JsonResponse(data, safe=False); #safe word - lets JsonResponse read Python Dict files
     return Response(data)
 
-@api_view(['GET','POST'])
+# @api_view(['GET','POST'])
 # @permission_classes([IsAuthenticated])
-def handles_list(request):
+class HandlesList(APIView):
     # data = ['Kirtan', 'Mayank', 'Manav']
-    if request.method == 'GET':
+    def get(self,request,format=None):
         query = request.GET.get('query')
 
-        if query == None:
-            query = ''
-
-        # handles = Handle.objects.filter(Q(username__icontains=query) |   Q(category__icontains=query))
         handles = Handle.objects.filter(Q(username__icontains=query))
+
         serializer = HandleSerializer(handles, many=True)
         return Response(serializer.data)
     
-    if request.method == 'POST':
+    def post(self,request,format=None):
         handle = Handle.objects.create(
             rank = request.data['rank'],
             username = request.data['username'],
@@ -44,26 +41,6 @@ def handles_list(request):
         serializer = HandleSerializer(handle, many=False)
         
         return Response(serializer.data)
-
-# @api_view(['GET', 'PUT', 'DELETE'])
-# def advocates_details(request,username):
-#     # data = username
-#     handle = Handle.objects.get(username = username)
-#     if request.method == 'GET':
-#         serializer = HandleSerializer(handle,many=False)
-#         return Response(serializer.data)
-    
-#     if request.method == 'PUT':
-#         handle.username = request.data['username'] #edit this out with your api's data
-#         handle.profile_pic = request.data['profile_pic']
-
-#         handle.save()
-#         serializer = HandleSerializer(handle,many=False)
-#         return Response(serializer.data)
-    
-#     if request.method == 'DELETE':
-#         handle.delete()
-#         return Response('User was deleted!')
 
 class HandleDetails(APIView):
     def get_object(self, username):
@@ -105,4 +82,14 @@ def category_list(request):
     categories = Category.objects.all()
     serializer = CategorySerializer(categories,many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def category_filter(request):
+    if request.method == 'GET':
+        query = request.GET.get('query')
+     
+        handles = Handle.objects.filter(Q(category_id=query))
+
+        serializer = HandleSerializer(handles, many=True)
+        return Response(serializer.data)
 

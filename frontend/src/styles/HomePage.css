@@ -67,11 +67,44 @@ input {
     background-color: black;
 }
 .inputC{
+    background-color: #5851D8;
     color: #FFF8F0;
 }
 
 .inputBtn{
-    background-color: #FFF8F0;
+    background-color: #fff;
     color: #5851D8;
+    display:inline;
+    padding-top: 10px;
+    padding-bottom: 10px;
     /* border: 2px solid #CC295F; */
+}
+
+#search_form{
+    /* border: 2px solid #000; */
+    /* display:inline;
+    position:relative; */
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px; 
+    /* box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px; */
+}
+
+.catBtn{
+    display: inline-flex;
+    background-color: #000;
+    color: #FFF8F0;
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+}
+
+.catSel2{
+    background-color: #CC295F;
+}
+
+.catSel{
+    background-color: #CC295F;
+    transition: all 0.3s ease-in-out;
+}
+
+.catSel:hover{
+    color: #CC295F;
+    background-color: #FFF8F0;
 }

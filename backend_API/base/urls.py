@@ -10,11 +10,12 @@ urlpatterns = [
     
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
 
-    path('handles/', views.handles_list, name = "handle_url"),
+    path('handles/', views.HandlesList.as_view(), name = "handle_url"),
     # path('handles/<str:username>/', views.advocates_details)
     path('handles/<str:username>/', views.HandleDetails.as_view()),
 
     #interests endpoint
+    path('filter/', views.category_filter, name = 'filter'),
     path('categories/', views.category_list)
 
 ]
