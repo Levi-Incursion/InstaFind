@@ -21,7 +21,7 @@ const HomePage = () => {
 
     let getData = async (query = '') => {
         try{
-            let response = await axios.get(`http://127.0.0.1:8000/handles/?query=${query}`)
+            let response = await axios.get(`https://instafind.onrender.com/handles/?query=${query}`)
             // let response = await axios.get("https://api.linkedin.com/v1/people-search:(people:(id,first-name,last-name,headline,picture-url,industry,positions:(id,title,summary,start-date,end-date,is-current,company:(id,name,type,size,industry,ticker)),educations:(id,school-name,field-of-study,start-date,end-date,degree,activities,notes)),num-results)?first-name=parameter&last-name=parameter")
             // console.log("Response:", response)
             setHandles(response.data)
@@ -41,7 +41,7 @@ const HomePage = () => {
 
     let getCategory = async (query = 0) =>{
         try{
-            let response = await axios.get(`http://127.0.0.1:8000/filter/?query=${query}`)
+            let response = await axios.get(`https://instafind.onrender.com/filter/?query=${query}`)
             setHandles(response.data)
 
         } catch (error){
