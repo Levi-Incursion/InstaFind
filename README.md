@@ -7,6 +7,7 @@ InstaFind is a website designed to efficiently search and filter businesses by c
 - **For Job Seekers and Startups**: Helps job seekers find relevant companies for job opportunities and startups identify potential companies for funding.
   
 ## Usage Instructions
+- At launch, the site may appear empty as Render's free backend instance can delay responses by up to 50 seconds. Please be patient and refresh the page after 1 minute.
 - Use the search bar to filter businesses by category and size.
 - If the website doesn't load properly, please refresh the page.
 - **Kind note**: If no update occurs after entering your search, click the search button and press `Enter` again to ensure the search results appear.
